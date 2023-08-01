@@ -96,20 +96,47 @@ keys.addEventListener("click", (e) => {
 
       return;
     }
-
-    display.value += e.target.innerText;
   }
+
+  if (
+    display.value.length > 0 &&
+    display.value.endsWith("+") &&
+    e.target.innerText === "+"
+  )
+    return;
+  if (
+    display.value.length > 0 &&
+    display.value.endsWith("-") &&
+    e.target.innerText === "-"
+  )
+    return;
+  if (
+    display.value.length > 0 &&
+    display.value.endsWith("x") &&
+    e.target.innerText === "x"
+  )
+    return;
+  if (
+    display.value.length > 0 &&
+    display.value.endsWith("÷") &&
+    e.target.innerText === "÷"
+  )
+    return;
+  display.value += e.target.innerText;
 });
 function evaluate() {
-  if (display.value === "") return;
+  let value = display.value;
+  if (value === "") return;
   while (
-    display.value.endsWith("+") ||
-    display.value.endsWith("-") ||
-    display.value.endsWith("x") ||
-    display.value.endsWith("÷")
+    value.endsWith("+") ||
+    value.endsWith("-") ||
+    value.endsWith("x") ||
+    value.endsWith("÷")
   ) {
-    display.value = display.value.substring(0, display.value.length - 1);
+    value = value.substring(0, value.length - 1);
   }
 
-  display.value = eval(display.value.replaceAll("÷", "/").replaceAll("x", "*"));
+  value = value.replaceAll("÷", "/").replaceAll("x", "*");
+
+  display.value = eval(value);
 }
