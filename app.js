@@ -101,14 +101,15 @@ keys.addEventListener("click", (e) => {
   }
 });
 function evaluate() {
-  let value = display.value.replaceAll("x", "*").replaceAll("÷", "/");
-  if (value === "") return;
-  if (/^\s*([-+]?)(\d+)(?:\s*([-+*\/])\s*((?:\s[-+])?\d+)\s*)+$/.test(value)) {
-    display.value = eval(value);
-  } else {
-    display.value = display.value
-      .replaceAll("x", "")
-      .replaceAll("÷", "")
-      .replaceAll("+", "");
+  if (display.value === "") return;
+  while (
+    display.value.endsWith("+") ||
+    display.value.endsWith("-") ||
+    display.value.endsWith("x") ||
+    display.value.endsWith("÷")
+  ) {
+    display.value = display.value.substring(0, display.value.length - 1);
   }
+
+  display.value = eval(display.value.replaceAll("÷", "/").replaceAll("x", "*"));
 }
