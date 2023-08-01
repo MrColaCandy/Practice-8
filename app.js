@@ -40,6 +40,10 @@ keys.addEventListener("click", (e) => {
     }
     if (e.target.innerText === "log") {
       evaluate();
+      if (display.value < 0 || display.value === "-") {
+        display.value = "Can't Calculate log of negative numbers!";
+        return;
+      }
       display.value = Math.log10(display.value);
       return;
     }
