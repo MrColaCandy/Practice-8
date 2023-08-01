@@ -127,6 +127,7 @@ keys.addEventListener("click", (e) => {
 function evaluate() {
   let value = display.value;
   if (value === "") return;
+  if (value === "-") return;
   while (
     value.endsWith("+") ||
     value.endsWith("-") ||
