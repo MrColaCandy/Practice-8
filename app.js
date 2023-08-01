@@ -97,47 +97,44 @@ keys.addEventListener("click", (e) => {
       return;
     }
   }
-
   if (
     display.value.length > 0 &&
-    display.value.endsWith("+") &&
-    e.target.innerText === "+"
-  )
+    isOperator(e.target.innerText) &&
+    doesEndWithOperator(display.value.toString())
+  ) {
     return;
-  if (
-    display.value.length > 0 &&
-    display.value.endsWith("-") &&
-    e.target.innerText === "-"
-  )
-    return;
-  if (
-    display.value.length > 0 &&
-    display.value.endsWith("x") &&
-    e.target.innerText === "x"
-  )
-    return;
-  if (
-    display.value.length > 0 &&
-    display.value.endsWith("÷") &&
-    e.target.innerText === "÷"
-  )
-    return;
+  }
   display.value += e.target.innerText;
 });
 function evaluate() {
   let value = display.value;
   if (value === "") return;
   if (value === "-") return;
-  while (
-    value.endsWith("+") ||
-    value.endsWith("-") ||
-    value.endsWith("x") ||
-    value.endsWith("÷")
-  ) {
-    value = value.substring(0, value.length - 1);
+  if (/^[0-9](?: \.)*$/.test(value)) {
+    display.value = value;
+    return;
   }
 
+  while (doesEndWithOperator(value)) {
+    value = value.substring(0, value.length - 1);
+  }
   value = value.replaceAll("÷", "/").replaceAll("x", "*");
-
+  if (!/^\s*([-+]?)(\d+)/.test(value)) {
+    display.value = "Invalid Input!";
+    return;
+  }
   display.value = eval(value);
+}
+
+function isOperator(str) {
+  return str === "x" || str === "-" || str === "÷" || str === "+";
+}
+
+function doesEndWithOperator(str) {
+  return (
+    str.endsWith("+") ||
+    str.endsWith("-") ||
+    str.endsWith("÷") ||
+    str.endsWith("x")
+  );
 }
