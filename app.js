@@ -8,7 +8,13 @@ keys.addEventListener("click", (e) => {
   }
   if (e.target.className === "key") {
     if (!/\d/.test(e.target.innerText)) {
-      if (display.value === "") return;
+      if (
+        e.target.innerText != "e" &&
+        e.target.innerText != "π" &&
+        e.target.innerText != "-"
+      ) {
+        if (display.value === "") return;
+      }
     }
     if (e.target.innerText == "AC") {
       display.value = "";
@@ -99,7 +105,6 @@ function evaluate() {
     display.value = display.value
       .replaceAll("x", "")
       .replaceAll("÷", "")
-      .replaceAll("+", "")
-      .replaceAll("-", "");
+      .replaceAll("+", "");
   }
 }
