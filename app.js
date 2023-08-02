@@ -12,7 +12,9 @@ keys.addEventListener("click", (e) => {
     if (
       e.target.innerText != "e" &&
       e.target.innerText != "π" &&
-      e.target.innerText != "-"
+      e.target.innerText != "-" &&
+      e.target.innerText != ")" &&
+      e.target.innerText != "("
     ) {
       if (display.value === "") return;
     }
@@ -120,10 +122,14 @@ function evaluate() {
     value = value.substring(0, value.length - 1);
   }
   value = value.replaceAll("÷", "/").replaceAll("x", "*");
-  if (!/^\s*([-+]?)(\d+)/.test(value)) {
-    display.value = "Invalid Input!";
-    return;
+
+  if (value.includes(")") || value.includes("(")) {
+    if (!value.match(/\((.*?)\)/g)) {
+      display.value = "Invalid Input!";
+      return;
+    }
   }
+
   display.value = eval(value);
 }
 
